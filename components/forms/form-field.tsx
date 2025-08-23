@@ -10,7 +10,7 @@ interface FormFieldProps<T extends FieldValues> {
   type?: "text" | "email" | "password";
 }
 
-export default function FormField({
+export default function FormField<T extends FieldValues>({
   name,
   control,
   label,
@@ -23,9 +23,14 @@ export default function FormField({
       control={control}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel className="label">{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} {...field} type={type} />
+            <Input
+              placeholder={placeholder}
+              {...field}
+              type={type}
+              className="input"
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

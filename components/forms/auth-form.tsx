@@ -10,8 +10,11 @@ import Image from "next/image";
 import Link from "next/link";
 import z from "zod";
 import { toast } from "sonner";
+import FormField from "./form-field";
+import { useRouter } from "next/navigation";
 
 export default function AuthForm({ type }: { type: FormType }) {
+  const router = useRouter();
   const schema = AuthSchema(type);
 
   const form = useForm<z.infer<typeof schema>>({
@@ -25,7 +28,15 @@ export default function AuthForm({ type }: { type: FormType }) {
 
   function onSubmit(values: z.infer<typeof schema>) {
     try {
-      console.log("Form submitted with values:", values);
+      if (type === "sign-in") {
+        console.log("Signing in with:", values);
+        toast.success("Signed in successfully!");
+        router.push("/dashboard");
+      } else {
+        console.log("Signing up with:", values);
+        toast.success("Account created successfully!");
+        router.push("/sign-in");
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("An error occurred while submitting the form.");
@@ -52,13 +63,32 @@ export default function AuthForm({ type }: { type: FormType }) {
           >
             {type === "sign-up" ? (
               <>
-                <p>Name</p>
+                <FormField
+                  control={form.control}
+                  name="username"
+                  label="Username"
+                  placeholder="Your username"
+                  type="text"
+                />
               </>
             ) : (
               <></>
             )}
-            <p>email</p>
-            <p>Password</p>
+            <FormField
+              control={form.control}
+              name="email"
+              label="Email"
+              placeholder="Your email"
+              type="email"
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              label="Password"
+              placeholder="Your password"
+              type="password"
+            />
 
             <Button type="submit" className="btn">
               {type === "sign-in" ? "Sign In" : "Sign Up"}
