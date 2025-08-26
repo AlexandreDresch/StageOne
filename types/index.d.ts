@@ -8,7 +8,7 @@ interface Interview {
   techstack: string[];
   createdAt: string;
   userId: string;
-  type: string;
+  type: "Technical" | "Mixed" | "Behavioral";
   finalized: boolean;
 }
 

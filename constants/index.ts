@@ -32,4 +32,15 @@ export const dummyInterviews: Interview[] = [
     finalized: true,
     createdAt: "2024-03-13T09:45:00Z",
   },
+  {
+    id: "4",
+    userId: "user3",
+    role: "Data Scientist",
+    type: "Behavioral",
+    techstack: ["Python", "R", "SQL"],
+    level: "Senior",
+    questions: ["Describe a challenging data project you worked on."],
+    finalized: true,
+    createdAt: "2024-03-12T11:20:00Z",
+  }
 ];
