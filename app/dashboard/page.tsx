@@ -1,10 +1,18 @@
 import InterviewCard from "@/components/interview-card";
 import { Button } from "@/components/ui/button";
 import { dummyInterviews } from "@/constants";
+import { getTechLogos } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const interviewsWithTech = await Promise.all(
+    dummyInterviews.map(async (i) => ({
+      ...i,
+      techIcons: await getTechLogos(i.techstack),
+    }))
+  );
+
   return (
     <>
       <section className="card-cta">
@@ -32,11 +40,11 @@ export default function Dashboard() {
         <h2>Your Interviews</h2>
 
         <div className="interviews-section">
-          {dummyInterviews.map((interview) => (
+          {interviewsWithTech.map((interview) => (
             <InterviewCard key={interview.id} {...interview} />
           ))}
 
-          {dummyInterviews.length === 0 && (
+          {interviewsWithTech.length === 0 && (
             <p className="text-slate-100/50">
               You have no interviews.{" "}
               <Link href="/interview" className="text-primary-100 underline">
