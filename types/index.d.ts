@@ -35,3 +35,7 @@ interface Feedback {
   finalAssessment: string;
   createdAt: string;
 }
+
+interface TechIconProps {
+  techStack: string[];
+}
