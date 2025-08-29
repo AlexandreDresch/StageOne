@@ -30,7 +30,7 @@ export default function AnimatedTooltip({
     springConfig
   );
   const translateX = useSpring(
-    useTransform(x, [-100, 100], [-50, 50]),
+    useTransform(x, [-100, 0], [-0, 0]),
     springConfig
   );
   const handleMouseMove = (event: React.MouseEvent<HTMLImageElement, MouseEvent>)  => {
@@ -53,7 +53,7 @@ export default function AnimatedTooltip({
                 initial={{ opacity: 0, y: 20, scale: 0.6 }}
                 animate={{
                   opacity: 1,
-                  y: 0,
+                  y: 20,
                   scale: 1,
                   transition: {
                     type: "spring",
@@ -61,17 +61,15 @@ export default function AnimatedTooltip({
                     damping: 10,
                   },
                 }}
-                exit={{ opacity: 0, y: 20, scale: 0.6 }}
+                exit={{ opacity: 0, y: 0, scale: 0.6 }}
                 style={{
                   translateX: translateX,
                   rotate: rotate,
                   whiteSpace: "nowrap",
                 }}
-                className="absolute -top-16 -left-1/2 translate-x-1/2 flex text-xs flex-col items-center justify-center rounded-md bg-foreground z-50 shadow-xl px-4 py-2"
+                className="absolute -top-16 left-1/2 -translate-x-1/2 flex text-xs flex-col items-center justify-center card-border bg-light-800 z-50 shadow-xl px-4 py-2"
               >
-                <div className="absolute inset-x-10 z-30 w-[20%] -bottom-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent h-px" />
-                <div className="absolute left-10 w-[40%] z-30 -bottom-px bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px" />
-                <div className="font-bold text-background relative z-30 text-base">
+                <div className="font-medium text-light-100 relative z-30 text-base">
                   {item.name}
                 </div>
               </motion.div>
