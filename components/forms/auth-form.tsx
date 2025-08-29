@@ -12,9 +12,12 @@ import z from "zod";
 import { toast } from "sonner";
 import FormField from "./form-field";
 import { useRouter } from "next/navigation";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "@/firebase/client";
-import { signUp } from "@/lib/actions/auth.action";
+import { signIn, signUp } from "@/lib/actions/auth.action";
 
 export default function AuthForm({ type }: { type: FormType }) {
   const router = useRouter();
@@ -32,7 +35,23 @@ export default function AuthForm({ type }: { type: FormType }) {
   async function onSubmit(values: z.infer<typeof schema>) {
     try {
       if (type === "sign-in") {
-        console.log("Signing in with:", values);
+        const { email, password } = values;
+
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+        const idToken = await userCredential.user.getIdToken();
+
+        if (!idToken) {
+          toast.error("Error signing in. Try again later.");
+
+          return;
+        }
+
+        await signIn({ email, idToken });
         toast.success("Signed in successfully!");
         router.push("/dashboard");
       } else {
