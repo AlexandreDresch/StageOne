@@ -66,3 +66,20 @@ interface AgentProps {
   type: "generate" | "interview";
   questions?: string[];
 }
+
+interface GetFeedbackByInterviewIdParams {
+  interviewId: string;
+  userId: string;
+}
+
+interface GetLatestInterviewsParams {
+  userId: string;
+  limit?: number;
+}
+
+interface CreateFeedbackParams {
+  interviewId: string;
+  userId: string;
+  transcript: { role: string; content: string }[];
+  feedbackId?: string;
+}
